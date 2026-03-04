@@ -23,10 +23,10 @@ async def pm_search(client, message):
     if message.text.startswith("/"):
         return
     stg = db.get_bot_sttgs()
-    if not stg.get('PM_SEARCH'):
+    if stg and not stg.get('PM_SEARCH'):
         return await message.reply_text('PM search was disabled!')
     if await is_premium(message.from_user.id, client):
-        if not stg.get('AUTO_FILTER'):
+        if stg and not stg.get('AUTO_FILTER'):
             return await message.reply_text('Auto filter was disabled!')
         s = await message.reply(f"<b><i>⚠️ `{message.text}` searching...</i></b>", quote=True)
         await auto_filter(client, message, s)
@@ -48,7 +48,7 @@ async def group_search(client, message):
     chat_id = message.chat.id
     user_id = message.from_user.id if message and message.from_user else 0
     stg = db.get_bot_sttgs()
-    if stg.get('AUTO_FILTER'):
+    if stg and stg.get('AUTO_FILTER'):
         if not user_id:
             await message.reply("I'm not working for anonymous admin!")
             return
