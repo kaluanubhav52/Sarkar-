@@ -103,7 +103,7 @@ SHORTLINK_URL = environ.get("SHORTLINK_URL", "mdiskshortner.link")
 SHORTLINK_API = environ.get("SHORTLINK_API", "36f1ae74ba1aa01e5bd73bdd0bc22aa915443501")
 VERIFY_EXPIRE = int(environ.get('VERIFY_EXPIRE', 86400)) # Add time in seconds
 WELCOME_TEXT = environ.get("WELCOME_TEXT", script.WELCOME_TEXT)
-INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTENSIONS', 'mp4 mkv').split()]
+INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTENSIONS', 'mp4 mkv mp3 m4a wav').split()]
 PM_FILE_DELETE_TIME = int(environ.get('PM_FILE_DELETE_TIME', '3600'))
 
 # boolean settings
@@ -154,7 +154,7 @@ if len(UPI_ID) == 0:
 UPI_NAME = environ.get("UPI_NAME", "Anubhav_Kumar") # add your UPI account name
 if len(UPI_NAME) == 0:
     logger.info('UPI_NAME is empty')
-RECEIPT_SEND_USERNAME = environ.get("RECEIPT_SEND_USERNAME", "@Hansaka_Anuhas")
+RECEIPT_SEND_USERNAME = environ.get("RECEIPT_SEND_USERNAME", "@HDFILM0900_BOT")
 if len(UPI_ID) == 0 or len(UPI_NAME) == 0:
     logger.info('IS_PREMIUM disabled due to empty UPI_ID or UPI_NAME')
     IS_PREMIUM = False
