@@ -11,7 +11,7 @@ from hydrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import db_count_documents, second_db_count_documents, get_file_details, delete_files
 from database.users_chats_db import db
 from info import IS_PREMIUM, PRE_DAY_AMOUNT, RECEIPT_SEND_USERNAME, URL, BIN_CHANNEL, SECOND_FILES_DATABASE_URL, STICKERS
-from utils import is_premium, upload_image, get_settings, get_size, is_subscribed, check_admin, get_shortlink, get_verify_status, update_verify_status, get_wish
+from utils import is_premium, upload_image, get_settings, get_size, is_subscribed, get_shortlink, get_verify_status, update_verify_status, get_wish
 
 async def del_stk(s):
     await asyncio.sleep(3)
