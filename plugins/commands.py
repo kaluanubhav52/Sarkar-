@@ -96,67 +96,23 @@ async def start(client, message):
                 parse_mode=enums.ParseMode.HTML
             )
             return 
-
-        if mc.startswith('verify'):
-         try:
-            _, token = mc.split("_", 1)
-        except ValueError:
-            return await message.reply("❌ Invalid Link Format!")
-
+            
+    if mc.startswith('verify'):
+        _, token = mc.split("_", 1)
         verify_status = await get_verify_status(message.from_user.id)
-        
-        if verify_status.get('verify_token') != token:
-            return await message.reply("❌ Your verify token is invalid or expired.")
-
-        expiry_time = datetime.now() + timedelta(seconds=VERIFY_EXPIRE)
+        if verify_status['verify_token'] != token:
+            return await message.reply("Your verify token is invalid.")
+        expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=VERIFY_EXPIRE)
         await update_verify_status(message.from_user.id, is_verified=True, expire_time=expiry_time)
-
-        file_id = verify_status.get("link")
-        
-        if file_id and file_id != "":
-            button_text = "🚀 Get Your File 🚀"
-            button_url = f"https://t.me/{temp.U_NAME}?start={file_id}"
+        if verify_status["link"] == "":
+            reply_markup = None
         else:
-            button_text = "🔙 Go Back to Group 🔙"
-            button_url = SUPPORT_LINK 
-
-        keyboard = InlineKeyboardMarkup([[
-            InlineKeyboardButton(button_text, url=button_url)
-        ]])
-
-        await message.reply(
-            text=f"✅ <b>Verification Successful!</b>\n\nAb aap niche diye gaye button par click karke apni file le sakte hain.",
-            reply_markup=keyboard,
-            protect_content=True
-        )
+            btn = [[
+                InlineKeyboardButton("📌 Get File 📌", url=f'https://t.me/{temp.U_NAME}?start={verify_status["link"]}')
+            ]]
+            reply_markup = InlineKeyboardMarkup(btn)
+        await message.reply(f"✅ You successfully verified until: {get_readable_time(VERIFY_EXPIRE)}", reply_markup=reply_markup, protect_content=True)
         return
-        
-    verify_status = await get_verify_status(message.from_user.id)
-    if IS_VERIFY and not verify_status['is_verified'] and not await is_premium(message.from_user.id, client):
-        token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
-        await update_verify_status(message.from_user.id, verify_token=token, link="" if mc == 'inline_verify' else mc)
-        link = await get_shortlink(SHORTLINK_URL, SHORTLINK_API, f'https://t.me/{temp.U_NAME}?start=verify_{token}')
-        btn = [[
-            InlineKeyboardButton("🧿 Verify 🧿", url=link)
-        ],[
-            InlineKeyboardButton('🗳 Tutorial 🗳', url=VERIFY_TUTORIAL)
-        ]]
-        await message.reply("You not verified today! Kindly verify now. 🔐", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
-        return
-
-    btn = await is_subscribed(client, message)
-    if btn:
-        btn.append(
-            [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"checksub#{mc}")]
-        )
-        reply_markup = InlineKeyboardMarkup(btn)
-        await message.reply_photo(
-            photo=random.choice(PICS),
-            caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Updates Channel' and try again. 😇",
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
-        return 
         
     if mc.startswith('all'):
         _, grp_id, key = mc.split("_", 2)
