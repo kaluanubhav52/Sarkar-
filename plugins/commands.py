@@ -97,8 +97,8 @@ async def start(client, message):
             )
             return 
 
-            if mc.startswith('verify'):
-        try:
+        if mc.startswith('verify'):
+         try:
             _, token = mc.split("_", 1)
         except ValueError:
             return await message.reply("❌ Invalid Link Format!")
@@ -130,8 +130,7 @@ async def start(client, message):
             protect_content=True
         )
         return
-
-    
+        
     verify_status = await get_verify_status(message.from_user.id)
     if IS_VERIFY and not verify_status['is_verified'] and not await is_premium(message.from_user.id, client):
         token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
