@@ -97,22 +97,54 @@ async def start(client, message):
             )
             return 
 
-    if mc.startswith('verify'):
-        _, token = mc.split("_", 1)
+        if mc.startswith('verify'):
+        # 1. Token nikaalna (Clean tarike se)
+        try:
+            _, token = mc.split("_", 1)
+        except ValueError:
+            return await message.reply("❌ Invalid Link Format!")
+
+        # 2. User ka status check karna
         verify_status = await get_verify_status(message.from_user.id)
-        if verify_status['verify_token'] != token:
-            return await message.reply("Your verify token is invalid.")
+        
+        # 3. Token validation (Security Check)
+        if verify_status.get('verify_token') != token:
+            return await message.reply("❌ Your verify token is invalid or expired.")
+
+        # 4. Status Update (Success!)
         expiry_time = datetime.now() + timedelta(seconds=VERIFY_EXPIRE)
         await update_verify_status(message.from_user.id, is_verified=True, expire_time=expiry_time)
-        if verify_status["link"] == "":
-            reply_markup = None
+
+        # 5. BUTTON LOGIC (Yahan 'None' ki galti fix ki hai)
+        # Agar file link database mein hai toh wahi dikhao, nahi toh wapas Group bhejo
+        file_id = verify_status.get("link")
+        
+        if file_id and file_id != "":
+            button_text = "🚀 Get Your File 🚀"
+            button_url = f"https://t.me/{temp.U_NAME}?start={file_id}"
         else:
-            btn = [[
-                InlineKeyboardButton("📌 Get File 📌", url=f'https://t.me/{temp.U_NAME}?start={verify_status["link"]}')
-            ]]
-            reply_markup = InlineKeyboardMarkup(btn)
-        await message.reply(f"✅ You successfully verified until: {get_readable_time(VERIFY_EXPIRE)}", reply_markup=reply_markup, protect_content=True)
+            # Agar link khali hai (Empty), toh user ko Support Group bhejo
+            button_text = "🔙 Go Back to Group 🔙"
+            button_url = SUPPORT_LINK 
+
+        # 6. Keyboard Setup (Saaf-suthra bina extra symbols ke)
+        keyboard = InlineKeyboardMarkup([[
+            InlineKeyboardButton(button_text, url=button_url)
+        ]])
+
+        # 7. Final Response
+        await message.reply(
+            text=(
+                f"✅ <b>Verification Successful!</b>\n\n"
+                f"Aapka verification <b>{get_readable_time(VERIFY_EXPIRE)}</b> tak valid hai.\n"
+                f"Ab aap niche diye gaye button par click karke apni file le sakte hain."
+            ),
+            reply_markup=keyboard,
+            protect_content=True,
+            parse_mode=enums.ParseMode.HTML
+        )
         return
+
     
     verify_status = await get_verify_status(message.from_user.id)
     if IS_VERIFY and not verify_status['is_verified'] and not await is_premium(message.from_user.id, client):
