@@ -4,7 +4,6 @@ import string
 import asyncio
 from time import time as time_now
 from time import monotonic
-import datetime
 from Script import script
 from hydrogram import Client, filters, enums
 from hydrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
