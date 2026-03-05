@@ -1170,47 +1170,47 @@ async def auto_filter(client, msg, s, spoll=False):
     else:
         cap = f"<b>💭 ʜᴇʏ {message.from_user.mention},\n♻️ ʜᴇʀᴇ ɪ ꜰᴏᴜɴᴅ ꜰᴏʀ ʏᴏᴜʀ sᴇᴀʀᴄʜ {search}...</b>"
     CAP[key] = cap
-    del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings["auto_delete"] else ''
+    del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ 5MIN ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings["auto_delete"] else ''
     if imdb and imdb.get('poster'):
         await s.delete()
         try:
             k = await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024] + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), parse_mode=enums.ParseMode.HTML, quote=True)
             if settings["auto_delete"]:
-                await asyncio.sleep(DELETE_TIME)
+                await asyncio.sleep(300)
                 await k.delete()
-                try:
-                    await message.delete()
-                except:
-                    pass
+              #  try:
+                  #  await message.delete()
+              #  except:
+                  #  pass
         except (MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty):
             pic = imdb.get('poster')
             poster = pic.replace('.jpg', "._V1_UX360.jpg")
             k = await message.reply_photo(photo=poster, caption=cap[:1024] + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), parse_mode=enums.ParseMode.HTML, quote=True)
             if settings["auto_delete"]:
-                await asyncio.sleep(DELETE_TIME)
+                await asyncio.sleep(300)
                 await k.delete()
-                try:
-                    await message.delete()
-                except:
-                    pass
+              #  try:
+                  #  await message.delete()
+              #  except:
+                   # pass
         except Exception as e:
             k = await message.reply_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True, parse_mode=enums.ParseMode.HTML, quote=True)
             if settings["auto_delete"]:
-                await asyncio.sleep(DELETE_TIME)
+                await asyncio.sleep(300)
                 await k.delete()
-                try:
-                    await message.delete()
-                except:
-                    pass
+             #   try:
+                 #   await message.delete()
+              #  except:
+                #    pass
     else:
         k = await s.edit_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True, parse_mode=enums.ParseMode.HTML)
         if settings["auto_delete"]:
-            await asyncio.sleep(DELETE_TIME)
+            await asyncio.sleep(300)
             await k.delete()
-            try:
-                await message.delete()
-            except:
-                pass
+          #  try:
+               # await message.delete()
+          #  except:
+             #   pass
 
 async def advantage_spell_chok(message, s):
     search = message.text
