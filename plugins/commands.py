@@ -103,7 +103,7 @@ async def start(client, message):
             return await message.reply("Your verify token is invalid.")
         expiry_time = datetime.now() + timedelta(seconds=VERIFY_EXPIRE)
         await update_verify_status(message.from_user.id, is_verified=True, expire_time=expiry_time)
-        if verify_status["_id"] == "":
+        if verify_status["f_id"] == "":
             reply_markup = None
         else:
             btn = [[
@@ -116,7 +116,7 @@ async def start(client, message):
     verify_status = await get_verify_status(message.from_user.id)
     if IS_VERIFY and not verify_status['is_verified'] and not await is_premium(message.from_user.id, client):
         token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
-        await update_verify_status(message.from_user.id, verify_token=token, link="" if mc == 'inline_verify' else mc)
+        await update_verify_status(message.from_user.id, verify_token=token, f_id="" if mc == 'inline_verify' else mc)
         link = await get_shortlink(SHORTLINK_URL, SHORTLINK_API, f'https://t.me/{temp.U_NAME}?start=verify_{token}')
         btn = [[
             InlineKeyboardButton("🧿 Verify 🧿", url=link)
