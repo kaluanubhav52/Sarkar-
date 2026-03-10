@@ -125,8 +125,12 @@ async def start(client, message):
         ],[
             InlineKeyboardButton("♻️ Try Again ♻️", url=f"https://t.me/{temp.U_NAME}?start={mc}")
         ]]
-        await message.reply("You not verified today! Kindly verify now. 🔐", reply_markup=InlineKeyboardMarkup(btn), protect_content=False)
-        return
+        await message.reply("♨️ 𝙔𝙊𝙐 𝘼𝙍𝙀 𝙉𝙊𝙏 𝙑𝙀𝙍𝙄𝙁𝙄𝙀𝘿 !\n
+𝙆𝙄𝙉𝘿𝙇𝙔 𝙑𝙀𝙍𝙄𝙁𝙔 𝙏𝙊 𝘾𝙊𝙉𝙏𝙄𝙉𝙐𝙀 & 𝙔𝙊𝙐 𝘾𝘼𝙉 𝙂𝙀𝙏 𝙐𝙉𝙇𝙄𝙈𝙄𝙏𝙀𝘿 𝘼𝘾𝘾𝙀𝙎𝙎 𝙁𝙊𝙍 {get_readable_time(VERIFY_EXPIRE)} 𝙃𝙊𝙐𝙍𝙎 ✅\n\n<blockquote>
+⚜️ इस 𝘽𝙊𝙏 से 𝙎𝙏𝙊𝙍𝙔 प्राप्त करने के लिए आपको 𝙑𝙀𝙍𝙄𝙁𝙔 करना आवश्यक है 𝙑𝙀𝙍𝙄𝙁𝙔 करने के बाद आप {get_readable_time(VERIFY_EXPIRE)} घंटे तक 𝙐𝙉𝙇𝙄𝙈𝙄𝙏𝙀𝘿 𝙎𝙏𝙊𝙍𝙔 प्राप्त कर सकते हो।</blockquote>\n\n<blockquote>
+🔥 अगर आप 𝙑𝙀𝙍𝙄𝙁𝙔 नहीं करना चाहते तो आप 𝙋𝙍𝙀𝙈𝙄𝙐𝙈 ले सकते हो, 𝙋𝙍𝙀𝙈𝙄𝙐𝙈 लेने के बाद आप 𝙐𝙉𝙇𝙄𝙈𝙄𝙏𝙀𝘿 𝙎𝙏𝙊𝙍𝙔 प्राप्त कर पाओगे और आपको 𝙑𝙀𝙍𝙄𝙁𝙔 करने कोई जरूरत नहीं है
+𝙋𝙇𝘼𝙉 𝘿𝙀𝙏𝘼𝙄𝙇𝙎 के लिए 𝘾𝙇𝙄𝘾𝙆 करें /𝙥𝙡𝙖𝙣</blockquote>", reply_markup=InlineKeyboardMarkup(btn), protect_content=False)
+       return
 
     btn = await is_subscribed(client, message)
     if btn:
