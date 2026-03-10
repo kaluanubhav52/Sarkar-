@@ -122,6 +122,8 @@ async def start(client, message):
             InlineKeyboardButton("🧿 Verify 🧿", url=link)
         ],[
             InlineKeyboardButton('🗳 Tutorial 🗳', url=VERIFY_TUTORIAL)
+        ],[
+            InlineKeyboardButton("♻️ Try Again ♻️", url=f"https://t.me/{temp.U_NAME}?start={mc}")
         ]]
         await message.reply("You not verified today! Kindly verify now. 🔐", reply_markup=InlineKeyboardMarkup(btn), protect_content=False)
         return
