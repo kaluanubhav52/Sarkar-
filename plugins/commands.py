@@ -125,9 +125,12 @@ async def start(client, message):
         ],[
             InlineKeyboardButton("♻️ Try Again ♻️", url=f"https://t.me/{temp.U_NAME}?start={mc}")
         ]]
-        await message.reply("You not verified today! Kindly verify now. 🔐", reply_markup=InlineKeyboardMarkup(btn), protect_content=False)
-        await asyncio.sleep(600) 
+    sent_msg = await message.reply("You not verified today! Kindly verify now. 🔐", reply_markup=InlineKeyboardMarkup(btn), protect_content=False)
+    await asyncio.sleep(600) 
+    try:
         await sent_msg.delete()
+    except Exception as e:
+        pass
         return
 
     btn = await is_subscribed(client, message)
